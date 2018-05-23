@@ -1,200 +1,213 @@
 # TripCreator front code style
 
-  - [1.](#order-in-files) **Order in files**:
 
-    - imports
-    - interfaces
-    - constants
-    - styled components
-    - react component
+<a name="order-in-files"></a>
+[1.](#order-in-files) **Order in files**:
 
+  - imports
+  - interfaces
+  - constants
+  - styled components
+  - react component
 
-  - [2.](#uppercase-constants) **Use upper case for constants **:
+<a name="uppercase-constants"></a>
+[2.](#uppercase-constants) **Use upper case for constants**:
 
-    ```javascript
-    // bad
-    const buttonHeight = 30;
+  ```javascript
+  // bad
+  const buttonHeight = 30;
 
-    const footerConstants = {
-      height: 50,
-      ...
-    }
+  const footerConstants = {
+    height: 50,
+    ...
+  }
 
-    // good
-    const BUTTON_HEIGHT = 30;
+  // good
+  const BUTTON_HEIGHT = 30;
 
-    const FOOTER_CONSTANTS = {
-      height: 50
-      ...
-    }
+  const FOOTER_CONSTANTS = {
+    height: 50
+    ...
+  }
 
-    ```
+  ```
 
-  - [3.](#name-variables-to-connect) **Always pass named variables mapStateToProps and mapDispatchToProps to connect() method**:
+<a name="named-variables-to-connect"></a>
+[3.](#named-variables-to-connect) **Always pass named variables mapStateToProps and mapDispatchToProps to connect() method**:
 
-    ```javascript
-    // bad
-    export const AccommodationGroups = connect(
-      ({ accommodationGroups }: RootState): OwnProps => ({
-        groups: accommodationGroups.groups,
-      }),
-      (dispatch: Dispatch<m.Actions>) => ({
-        actions: bindActionCreators(accommodationGroupsActions, dispatch)
-      }))(Component);
-
-    // good
-    const mapStateToProps = ({ accommodationGroups }: RootState): OwnProps => ({
+  ```javascript
+  // bad
+  export const AccommodationGroups = connect(
+    ({ accommodationGroups }: RootState): OwnProps => ({
       groups: accommodationGroups.groups,
-    });
-
-    const mapDispatchToProps = (dispatch: Dispatch<m.Actions>) => ({
+    }),
+    (dispatch: Dispatch<m.Actions>) => ({
       actions: bindActionCreators(accommodationGroupsActions, dispatch)
-    });
+    }))(Component);
 
-    export const AccommodationGroups = connect(mapStateToProps, mapDispatchToProps)(Component);
+  // good
+  const mapStateToProps = ({ accommodationGroups }: RootState): OwnProps => ({
+    groups: accommodationGroups.groups,
+  });
 
-    ```
+  const mapDispatchToProps = (dispatch: Dispatch<m.Actions>) => ({
+    actions: bindActionCreators(accommodationGroupsActions, dispatch)
+  });
 
-  - [4.](#use-bind-action-creators) **Always use bindActionCreators, do not use this.props.dispatch**:
+  export const AccommodationGroups = connect(mapStateToProps, mapDispatchToProps)(Component);
 
-    ```javascript
-    // bad
-    const mapDispatchToProps = (dispatch: Dispatch<m.Actions>) => ({
-      dispatch
-    });
+  ```
 
-    ...
+<a name="use-bind-action-creators"></a>
+[4.](#use-bind-action-creators) **Always use bindActionCreators, do not use this.props.dispatch**:
 
-    this.props.dispatch(accommodationGroupsActions.loadGroups());
+  ```javascript
+  // bad
+  const mapDispatchToProps = (dispatch: Dispatch<m.Actions>) => ({
+    dispatch
+  });
 
-    // good
-    const mapDispatchToProps = (dispatch: Dispatch<m.Actions>) => ({
-      actions: bindActionCreators(accommodationGroupsActions, dispatch)
-    });
+  ...
 
-    ...
+  this.props.dispatch(accommodationGroupsActions.loadGroups());
 
-    const { actions } = this.props;
-    actions.loadGroups();
+  // good
+  const mapDispatchToProps = (dispatch: Dispatch<m.Actions>) => ({
+    actions: bindActionCreators(accommodationGroupsActions, dispatch)
+  });
 
-    ```
+  ...
 
-  - [5.](#curly-brackets-space) **Add spaces between curly brackets and object properties**:
+  const { actions } = this.props;
+  actions.loadGroups();
 
-    ```javascript
-    // bad
-    const {actions} = this.props;
+  ```
 
-    // good
-    const { actions } = this.props;
+<a name="curly-brackets-space"></a>
+[5.](#curly-brackets-space) **Add spaces between curly brackets and object properties**:
 
-    ```
+  ```javascript
+  // bad
+  const {actions} = this.props;
 
-  - [6.](#do-not-use-bind) **Do not use method.bind(this) or method = () => {}  when () => method() is possible to use**:
+  // good
+  const { actions } = this.props;
 
-    ```javascript
-    // bad
-    <Link onClick={ this.toggle.bind(this) }>Select</Link>
+  ```
+
+<a name="do-not-use-bind"></a>
+[6.](#do-not-use-bind) **Do not use method.bind(this) or method = () => {}  when () => method() is possible to use**:
+
+  ```javascript
+  // bad
+  <Link onClick={ this.toggle.bind(this) }>Select</Link>
 
 
-    // good
-    <Link onClick={ () => this.toggle() }>Select</Link>
+  // good
+  <Link onClick={ () => this.toggle() }>Select</Link>
 
-    ```
+  ```
 
-  - [7.](#do-not-use-default-exports) **Do not use default exports**:
+<a name="do-not-use-default-exports"></a>
+[7.](#do-not-use-default-exports) **Do not use default exports**:
 
-    ```javascript
-    // bad
-    class Textarea extends React.Component<{}> {}
-    export default Textarea;
+  ```javascript
+  // bad
+  class Textarea extends React.Component<{}> {}
+  export default Textarea;
 
-    // good
-    export class Textarea extends React.Component<{}> {}
+  // good
+  export class Textarea extends React.Component<{}> {}
 
-    ```
+  ```
 
-  - [7.](#uncscoped-naming-for-exported-variables) **Do not use unscoped naming for exported variables**:
+<a name="uncscoped-naming-for-exported-variables"></a>
+[7.](#uncscoped-naming-for-exported-variables) **Do not use unscoped naming for exported variables**:
 
-    ```javascript
-    // bad
-    export const reducer = ...
+  ```javascript
+  // bad
+  export const reducer = ...
 
-    // good
-    export const cartInfoReducer = ...
+  // good
+  export const cartInfoReducer = ...
 
-    ```
+  ```
 
-  - [8.](#common-naming-for-private-variables) **For private variables, use common naming**:
+<a name="common-naming-for-private-variables"></a>
+[8.](#common-naming-for-private-variables) **For private variables, use common naming**:
 
-    ```javascript
-    // bad
-    const TimePickerContainer => styled.div``;
+  ```javascript
+  // bad
+  const TimePickerContainer => styled.div``;
 
-    interface TimePickerProps {}
+  interface TimePickerProps {}
 
-    // good
-    const Container => styled.div``;
+  // good
+  const Container => styled.div``;
 
-    interface Props {}
+  interface Props {}
 
-    ```
+  ```
 
-  - [9.](#define-method-return type) **Always define method return type, unless it is void**:
+<a name="define-method-return-type"></a>
+[9.](#define-method-return-type) **Always define method return type, unless it is void**:
 
-    ```javascript
-    // bad
-    export const displayDateTime = (time) => {
-      return moment.utc(time).format('MMM DD, YYYY, HH:mm');
-    };
+  ```javascript
+  // bad
+  export const displayDateTime = (time) => {
+    return moment.utc(time).format('MMM DD, YYYY, HH:mm');
+  };
 
-    // good
-    export const displayDateTime = (time): string => {
-      return moment.utc(time).format('MMM DD, YYYY, HH:mm');
-    };
+  // good
+  export const displayDateTime = (time): string => {
+    return moment.utc(time).format('MMM DD, YYYY, HH:mm');
+  };
 
-    ```
+  ```
 
-  - [10.](#atributes-in-separate-lines) **When element has multiple attributes, write them in separate lines, as well as closing tag**:
+<a name="atributes-in-separate-lines"></a>
+[10.](#atributes-in-separate-lines) **When element has multiple attributes, write them in separate lines, as well as closing tag**:
 
-    ```javascript
-    // bad
-    <ItineraryItemHeader
-      inventorized={ true }
-      address={ locationTitle } />
+  ```javascript
+  // bad
+  <ItineraryItemHeader
+    inventorized={ true }
+    address={ locationTitle } />
 
-    // good
-    <ItineraryItemHeader
-      inventorized={ true }
-      address={ locationTitle }
-    />
+  // good
+  <ItineraryItemHeader
+    inventorized={ true }
+    address={ locationTitle }
+  />
 
-    ```
+  ```
 
-  - [11.](#action-names) **For action names, use structure app/feature/action**:
+<a name="action-names"></a>
+[11.](#action-names) **For action names, use structure app/feature/action**:
 
-    ```javascript
-    // bad
-    const LOAD_CAR_ALTERNATIVES = 'LOAD_CAR_ALTERNATIVES';
+  ```javascript
+  // bad
+  const LOAD_CAR_ALTERNATIVES = 'LOAD_CAR_ALTERNATIVES';
 
-    // good
-    const CAR_ALTERNATIVES_LOAD = 'checkout/CAR/ALTERNATIVES/LOAD';
+  // good
+  const CAR_ALTERNATIVES_LOAD = 'checkout/CAR_ALTERNATIVES/LOAD';
 
-    ```
+  ```
 
-  - [12.](#action-names) **Use same indentation everywhere**:
+<a name="same-indentation"></a>
+[12.](#same-indentation) **Use same indentation everywhere**:
 
-    ```javascript
-    // bad
-    return failingItems
-           .map(i => `'${i}'`)
-           .filter((v, i, a) => a.indexOf(v) === i)
-           .join(', ') || fallback;
+  ```javascript
+  // bad
+  return failingItems
+          .map(i => `'${i}'`)
+          .filter((v, i, a) => a.indexOf(v) === i)
+          .join(', ') || fallback;
 
-    // good
-    return failingItems
-      .map(i => `'${i}'`)
-      .filter((v, i, a) => a.indexOf(v) === i)
-      .join(', ') || fallback;
+  // good
+  return failingItems
+    .map(i => `'${i}'`)
+    .filter((v, i, a) => a.indexOf(v) === i)
+    .join(', ') || fallback;
 
-    ```
+  ```
