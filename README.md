@@ -5,10 +5,11 @@
 [1.](#order-in-files) **Order in files**:
 
   - imports
-  - interfaces
   - constants
   - styled components
   - react component
+
+  Define interfaces above components that use them
 
 <a name="uppercase-constants"></a>
 [2.](#uppercase-constants) **Use upper case for constants**:
@@ -42,7 +43,7 @@
       groups: accommodationGroups.groups,
     }),
     (dispatch: Dispatch<m.Actions>) => ({
-      actions: bindActionCreators(accommodationGroupsActions, dispatch)
+      dispatch
     }))(Component);
 
   // good
@@ -51,7 +52,7 @@
   });
 
   const mapDispatchToProps = (dispatch: Dispatch<m.Actions>) => ({
-    actions: bindActionCreators(accommodationGroupsActions, dispatch)
+    dispatch
   });
 
   export const AccommodationGroups = connect(mapStateToProps, mapDispatchToProps)(Component);
@@ -59,19 +60,10 @@
   ```
 
 <a name="use-bind-action-creators"></a>
-[4.](#use-bind-action-creators) **Always use bindActionCreators, do not use this.props.dispatch**:
+[4.](#use-bind-action-creators) **Use dispatch instead of bindActionCreators**:
 
   ```javascript
   // bad
-  const mapDispatchToProps = (dispatch: Dispatch<m.Actions>) => ({
-    dispatch
-  });
-
-  ...
-
-  this.props.dispatch(accommodationGroupsActions.loadGroups());
-
-  // good
   const mapDispatchToProps = (dispatch: Dispatch<m.Actions>) => ({
     actions: bindActionCreators(accommodationGroupsActions, dispatch)
   });
@@ -80,6 +72,15 @@
 
   const { actions } = this.props;
   actions.loadGroups();
+
+  // good
+  const mapDispatchToProps = (dispatch: Dispatch<m.Actions>) => ({
+    dispatch
+  });
+
+  ...
+
+  this.props.dispatch(accommodationGroupsActions.loadGroups());
 
   ```
 
@@ -122,19 +123,21 @@
   ```
 
 <a name="uncscoped-naming-for-exported-variables"></a>
-[7.](#uncscoped-naming-for-exported-variables) **Do not use unscoped naming for exported variables**:
+[8.](#uncscoped-naming-for-exported-variables) **Do not use unscoped naming for exported variables**:
 
   ```javascript
   // bad
   export const reducer = ...
+  export type Action = GetActionTypes<typeof actions>;
 
   // good
   export const cartInfoReducer = ...
+  export type CartInfoAction = GetActionTypes<typeof actions>;
 
   ```
 
 <a name="common-naming-for-private-variables"></a>
-[8.](#common-naming-for-private-variables) **For private variables, use common naming**:
+[9.](#common-naming-for-private-variables) **For private variables, use common naming**:
 
   ```javascript
   // bad
@@ -150,7 +153,7 @@
   ```
 
 <a name="define-method-return-type"></a>
-[9.](#define-method-return-type) **Always define method return type, unless it is void**:
+[10.](#define-method-return-type) **Define method return type for complex methods or which return other method**:
 
   ```javascript
   // bad
@@ -165,37 +168,64 @@
 
   ```
 
-<a name="atributes-in-separate-lines"></a>
-[10.](#atributes-in-separate-lines) **When element has multiple attributes, write them in separate lines, as well as closing tag**:
+<a name="render-prefix"></a>
+[11.](#render-prefix) **Methods names, that return JSX.Elements, should start with "render"**:
 
   ```javascript
   // bad
-  <ItineraryItemHeader
+  bookingNo() {
+    return (
+      <BookingNo>
+        Number
+      </BookingNo>
+    );
+  }
+
+  // good
+  renderBookingNo() {
+    return (
+      <BookingNo>
+        Number
+      </BookingNo>
+    );
+  }
+
+  ```
+
+<a name="atributes-in-separate-lines"></a>
+[12.](#atributes-in-separate-lines) **If element's opening tag has more than one attribute, write them in separate lines, as well as closing tag (both for elements with children and without). If element has only one attribute, write it in single line**:
+
+  ```javascript
+  // bad
+  <Group
+    inventorized={ true }
+    address={ locationTitle }>
+    Group name
+  </Group>
+
+  <Group
     inventorized={ true }
     address={ locationTitle } />
 
   // good
-  <ItineraryItemHeader
+  <Group
     inventorized={ true }
     address={ locationTitle }
   />
 
-  ```
+  <Group
+    inventorized={ true }
+    address={ locationTitle }
+  >
+    Group name
+  </Group>
 
-<a name="action-names"></a>
-[11.](#action-names) **For action names, use structure app/feature/action**:
-
-  ```javascript
-  // bad
-  const LOAD_CAR_ALTERNATIVES = 'LOAD_CAR_ALTERNATIVES';
-
-  // good
-  const CAR_ALTERNATIVES_LOAD = 'checkout/CAR_ALTERNATIVES/LOAD';
+  <Group inventorized={ true }>Group name</Group>
 
   ```
 
 <a name="same-indentation"></a>
-[12.](#same-indentation) **Use same indentation everywhere**:
+[13.](#same-indentation) **Use same indentation everywhere**:
 
   ```javascript
   // bad
