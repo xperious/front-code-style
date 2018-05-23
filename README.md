@@ -141,14 +141,23 @@
 
   ```javascript
   // bad
+  interface TimePickerContainerProps {}
+
   const TimePickerContainer => styled.div``;
 
   interface TimePickerProps {}
 
+  export class TimePicker extends React.Component<TimePickerProps> {}
+
+
   // good
+  interface ContainerProps {}
+
   const Container => styled.div``;
 
   interface Props {}
+
+  export class TimePicker extends React.Component<Props> {}
 
   ```
 
